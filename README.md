@@ -12,8 +12,13 @@
 * Step3: Run 'mvn clean' 
 * Step4: Run 'mvn install' 
 
+**Test Suit**
+Refer feature file present under /VisualfabriqTest_apiAutomation/src/test/resources/VisualFabriqApiAssignment.feature
+
 **Execute Test Suit**
-Execute TestRunner file as JUnit Test, location - VisualfabriqTest_apiAutomation/src/test/java/runners/TestRunner.java
+Execute TestRunner file as JUnit Test, location - /VisualfabriqTest_apiAutomation/src/test/java/runners/TestRunner.java
+* To execute all tc's present in test suit, mention 'tag=@runall'
+* To execute each tc individually, mention 'tag=@test1', based on the tc number
 
 **Execution Report**
 Check the cucumber repot present in VisualfabriqTest_apiAutomation/target/cucumber-reports.html
