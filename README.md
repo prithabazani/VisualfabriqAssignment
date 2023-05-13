@@ -7,9 +7,10 @@
 2. Any one of the IDE Eclipse or Intellij should be installed
 
 **Installation**
-Clone the git repository 'git clone '
-Import the project in any IDE
-Run 'mvn clean' and then 'mvn install'
+Step1: Clone the git repository 'git clone '
+Step2 Import the project in any IDE
+Step3: Run 'mvn clean'
+Step4: Run 'mvn install'
 
 **Execute Test Suit**
 Execute TestRunner file as JUnit Test, location - VisualfabriqTest_apiAutomation/src/test/java/runners/TestRunner.java
