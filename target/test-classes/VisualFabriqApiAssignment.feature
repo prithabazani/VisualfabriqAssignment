@@ -33,7 +33,18 @@ Feature: VisualFabriq Assignment
 		|1990-05-24|day|
 		|1990-05-24|week|
 		|1990-05-24|month|
-		
+	
+	
+	@BugValidation
+  Scenario Outline: Validate if endpoints are giving valid response
+    Given I set endpoint as "/Prod/next-birthday?dateofbirth=qp1&unit=qp2" with "<dateofbirth>" and "<unit>"
+    And I validated the status as 200
+    And I validated the response with respect to "<dateofbirth>" and unit as hour
+    
+    Examples:
+    |dateofbirth|
+		|1990-05-24|
+		|1990-05-14|	
 		
 	@test2 @runall
   Scenario Outline: Validate if endpoints are giving valid response for birthYear Leapyear
