@@ -1,12 +1,9 @@
 package stepDefinitions;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -15,7 +12,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
-import junit.framework.Assert;
 
 import static org.junit.Assert.*;				
 
@@ -92,13 +88,16 @@ public class firsttest {
 			break;
 		case "month":
 			//get month difference
-			Month birthMonth = dateOfBirth.getMonth();		
-			Month curMonth = now.getMonth();	
-			assertEquals(curMonth.compareTo(birthMonth),remainingNum);
-			assert(jsonString.contains(curMonth.compareTo(birthMonth)+" months left"));
+			Month birthMonth = dateOfBirth.getMonth();	
+			
+			Month curMonth = now.getMonth();
+			int monthDiff = birthMonth.compareTo(curMonth);
+			if(monthDiff<0)
+				monthDiff = monthDiff + 12;
+			assertEquals(monthDiff,remainingNum);
+			assert(jsonString.contains(monthDiff+" months left"));
 		    break;
-		}		
-	     					 
+		}		    					 
 	}
 	
     @And("^I validated the status as (\\d+)$") 
