@@ -7,7 +7,7 @@
 2. Any one of the IDE Eclipse or Intellij should be installed
 
 **Installation**
-Step1: Clone the git repository 'git clone '
+Step1: Clone the git repository 'git clone https://github.com/prithabazani/VisualfabriqAssignment.git'
 Step2 Import the project in any IDE
 Step3: Run 'mvn clean'
 Step4: Run 'mvn install'
