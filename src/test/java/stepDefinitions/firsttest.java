@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Date;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -52,15 +53,35 @@ public class firsttest {
 	public void validated_the_response(String dob, String unit) throws ParseException {
 		LocalDate dateOfBirth = LocalDate.parse(dob);
 		LocalDateTime now = LocalDateTime.now(); 
-		//get days difference
-				int birthDate = dateOfBirth.getDayOfYear();
-				int curDate = now.getDayOfYear();
-				int curYear= now.getYear();
-				int remainingDays = birthDate - curDate;
+		        int curYear= now.getYear();
+				int birthYear = dateOfBirth.getYear();
+				int birthDate = dateOfBirth.getDayOfMonth();
+				int curDate = now.getDayOfMonth();
+				Month birthMonth = dateOfBirth.getMonth();		
+				Month curMonth = now.getMonth();
+				if(curYear<birthYear) {
+					   assertFalse("DOB is in future", curYear<birthYear);			  
+				}else if(curYear==birthYear) {
+					 if(curMonth.compareTo(birthMonth)<0) {
+						   assertFalse("DOB is in future", curMonth.compareTo(birthMonth)<0);
+					 }else if(curMonth.compareTo(birthMonth)==0) {
+						   if(curDate<birthDate)
+						      assertFalse("DOB is in future", curDate<birthDate);
+					 }					 
+				}
+				  
+				int birthDayOfYear = dateOfBirth.getDayOfYear();
+				int curDayOfYear = now.getDayOfYear();
+				System.out.println("birthDate="+birthDayOfYear);
+				System.out.println("curDayOfYear="+curDayOfYear);
+				int remainingDays = birthDayOfYear - curDayOfYear;
+				System.out.println("remainingDays="+remainingDays);
 				if(remainingDays<0) {
-					remainingDays = birthDate + 365 - curDate;
-					if(curYear%4==0)
+					remainingDays = birthDayOfYear + 365 - curDayOfYear;
+					if(curYear%4==0 & birthMonth.getValue()<2)
 						remainingDays = remainingDays + 1;
+					if((curYear+1)%4==0 & birthMonth.getValue()>2)
+						remainingDays = remainingDays + 1;						
 				}
 					
 	    ResponseBody actual_response = response.getBody();
@@ -88,9 +109,6 @@ public class firsttest {
 			break;
 		case "month":
 			//get month difference
-			Month birthMonth = dateOfBirth.getMonth();	
-			
-			Month curMonth = now.getMonth();
 			int monthDiff = birthMonth.compareTo(curMonth);
 			if(monthDiff<0)
 				monthDiff = monthDiff + 12;
@@ -99,6 +117,7 @@ public class firsttest {
 		    break;
 		}		    					 
 	}
+	
 	
     @And("^I validated the status as (\\d+)$") 
     public void i_validated_the_status(int expected_statusCode) {
@@ -110,5 +129,15 @@ public class firsttest {
     	ResponseBody actual_response = response.getBody();
     	actual_response.prettyPrint();
     	assert(actual_response.asString().contains(responseMsg));
-    } 	
+    }
+    
+    @Given("I set endpoint as {string} with {string}")
+    public void i_set_endpoint_as_with(String endpoint, String qp) {
+    	RestAssured.baseURI = BASE_URL;
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		endpoint = endpoint.replace("qp", qp);
+		System.out.println(endpoint);
+		response = request.get(endpoint);
+    }
 }

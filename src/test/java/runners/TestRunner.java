@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 		features="src/test/resources",
 		glue= {"stepDefinitions"},
 		tags= "@runall",
-	    plugin = { "pretty", "html:target/cucumber-reports.html" },
+	    plugin = { "pretty", "json:target/cucumber-reports/NextBirthdayValidation","html:target/cucumber-reports/CucumberHtml.html" },
 		monochrome=true
 		)
 public class TestRunner {

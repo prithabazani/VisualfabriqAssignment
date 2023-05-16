@@ -24,16 +24,20 @@ Feature: VisualFabriq Assignment
   Scenario Outline: Validate if endpoints are giving valid response
     Given I set endpoint as "/Prod/next-birthday?dateofbirth=qp1&unit=qp2" with "<dateofbirth>" and "<unit>"
     And I validated the status as 200
-    And I validated the response with respect to "<dateofbirth>" and "<unit>"
+    Then I validated the response with respect to "<dateofbirth>" and "<unit>"
     
     Examples:
     |dateofbirth|unit|
 		|1990-05-24|hour|
-		|1990-05-14|hour|
+		|1990-05-17|hour|
 		|1990-05-24|day|
 		|1990-05-24|week|
 		|1990-05-24|month|
-		
+		|2020-05-16|day|	
+		|2020-05-17|day|	
+		|2024-02-24|month|
+		|2023-08-24|month|
+		|2023-05-28|day|
 		
 	@test2 @runall
   Scenario Outline: Validate if endpoints are giving valid response for birthYear Leapyear
@@ -50,6 +54,7 @@ Feature: VisualFabriq Assignment
 		|2004-02-29|week|
 		|2004-02-29|day|
 		|2004-02-29|month|	
+		|2004-03-01|day|
 		
 	@test3 @runall
 	Scenario Outline: Validate endpoints with invalid request type
@@ -94,7 +99,7 @@ Feature: VisualFabriq Assignment
     Then I validated the response message as "<responseMessage>"
     Examples:
     |dateofbirth|unit|responseMessage|
-		|1990-05-24|hour|Forbidden|
+		|1990-06-24|hour|Forbidden|
 		|1990-05-24|day|Forbidden|
 		|1990-05-24|week|Forbidden|
 		|1990-05-24|month|Forbidden|
@@ -110,6 +115,30 @@ Feature: VisualFabriq Assignment
 		|34|day|Please specify both query parameter dateofbirth and unit|
 		|50|week|Please specify both query parameter dateofbirth and unit|
 		|10|month|Please specify both query parameter dateofbirth and unit|
+		
+	@test8 @runall
+ 		Scenario Outline: Validate endpoints with only dateofbirth as queryParam
+		Given I set endpoint as "Prod/next-birthday?dateofbirth=qp" with "<dateofbirth>"
+    And I validated the status as 400
+    Then I validated the response message as "<responseMessage>"
+    Examples:
+    |dateofbirth|responseMessage|
+		|1990-06-24|Please specify both query parameter dateofbirth and unit|
+		|1990-06-24|Please specify both query parameter dateofbirth and unit|
+		|1990-06-24|Please specify both query parameter dateofbirth and unit|
+		|1990-06-24|Please specify both query parameter dateofbirth and unit|
+		
+	@test9 @runall
+ 		Scenario Outline: Validate endpoints with only unit as queryParam
+		Given I set endpoint as "Prod/next-birthday?unit=qp" with "<unit>"
+    And I validated the status as 400
+    Then I validated the response message as "<responseMessage>"
+    Examples:
+    |unit|responseMessage|
+		|day|Please specify both query parameter dateofbirth and unit|
+		|month|Please specify both query parameter dateofbirth and unit|
+		|week|Please specify both query parameter dateofbirth and unit|
+		|hour|Please specify both query parameter dateofbirth and unit|			
  			
  		
 		
